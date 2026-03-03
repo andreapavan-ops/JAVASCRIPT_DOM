@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio DOM</title>
+    <link rel="stylesheet" href="style.css">
+   
+   <style>
+        /* Aggiungi qui il tuo CSS */
+
+    </style>
+</head>
+<body>
+
+<h1>Contatore</h1>
+    
+    <h2 id="valore" class="zero">0</h2>
+
+    <div class="controlli">
+        <button onclick="cambiaValore(-1)">-1</button>
+        <button onclick="reset()">Reset</button>
+        <button onclick="cambiaValore(1)">+1</button>
+    </div>
+
+    <div class="cronologia-container">
+        <h3>Cronologia</h3>
+        <ul id="lista-cronologia"></ul>
+    </div>
+
+    <script>
+        let contatore = 0;
+        const displayValore = document.getElementById('valore');
+        const listaCronologia = document.getElementById('lista-cronologia');
+
+        function aggiornaUI(operazione) {
+            // 1. Aggiorna il testo dell'H2
+            displayValore.innerText = contatore;
+
+            // 2. Bonus: Gestione colori
+            displayValore.className = ""; // Rimuove classi precedenti
+            if (contatore > 0) displayValore.classList.add('positivo');
+            else if (contatore < 0) displayValore.classList.add('negativo');
+            else displayValore.classList.add('zero');
+
+            // 3. Aggiunta alla cronologia
+            const ora = new Date().toLocaleTimeString("it-IT");
+            const nuovoElemento = document.createElement('li');
+            nuovoElemento.innerText = `[${ora}] ${operazione} → Valore: ${contatore}`;
+            
+            // Inserisce l'ultimo evento in cima alla lista
+            listaCronologia.prepend(nuovoElemento);
+        }
+
+        function cambiaValore(delta) {
+            contatore += delta;
+            const segno = delta > 0 ? "+1" : "-1";
+            aggiornaUI(segno);
+        }
+
+        function reset() {
+            contatore = 0;
+            aggiornaUI("Reset");
+        }
+    </script>
+
+
+    <script src="script.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="statistica">
+    <h2 id="valore">0</h2>
+    <p>Progetti Portati a Termine</p>
+</div>
+
+<script>
+    // Configurazione: il numero finale che vuoi raggiungere
+    const target = 150; 
+    let corrente = 0;
+    const elemento = document.getElementById('valore');
+
+    // Funzione per l'animazione fluida
+    const incremento = setInterval(() => {
+        corrente++;
+        elemento.innerText = corrente;
+        
+        if (corrente >= target) {
+            clearInterval(incremento); // Ferma l'animazione
+        }
+    }, 20); // Velocità in millisecondi
+</script>
+
+
+
+</body>
+</html>
