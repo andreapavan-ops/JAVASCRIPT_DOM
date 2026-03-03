@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter Up Professionale</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; height: 200vh; /* Altezza extra per testare lo scroll */ display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f4f4f9; }
+        
+        .stat-card { background: white; padding: 2rem; border-radius: 15px; shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; width: 250px; }
+        
+        /* Lo stile del numero */
+        .counter { font-size: 4rem; font-weight: bold; color: #2563eb; display: block; margin-bottom: 0.5rem; }
+        
+        p { color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <div style="margin-bottom: 800px;">Scorri verso il basso per vedere l'animazione... ↓</div>
+
+    <div class="stat-card">
+        <span class="counter" data-target="250">0</span>
+        <p>Progetti Completati</p>
+    </div>
+
+    <script>
+        const animaContatore = (el) => {
+            const target = +el.getAttribute('data-target'); // Il numero finale
+            const velocita = 100; // Più alto è, più è lento
+            
+            const aggiorna = () => {
+                const valoreCorrente = +el.innerText;
+                const incremento = target / velocita;
+
+                if (valoreCorrente < target) {
+                    el.innerText = Math.ceil(valoreCorrente + incremento);
+                    setTimeout(aggiorna, 20); // Frequenza di aggiornamento (ms)
+                } else {
+                    el.innerText = target; // Assicura che finisca sul numero esatto
+                }
+            };
+            aggiorna();
+        };
+
+        // --- INTERSECTION OBSERVER ---
+        // Fa partire l'animazione solo quando l'elemento è visibile a schermo
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animaContatore(entry.target);
+                    observer.unobserve(entry.target); // Ferma l'osservazione dopo la prima volta
+                }
+            });
+        }, { threshold: 0.5 }); // Parte quando il 50% dell'elemento è visibile
+
+        // Seleziona il contatore e avvia l'osservazione
+        const contatoreElemento = document.querySelector('.counter');
+        observer.observe(contatoreElemento);
+    </script>
+
+</body>
+</html>
